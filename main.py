@@ -73,3 +73,92 @@ reviews['text'] = reviews['text'].str.replace('[^a-zA-Z]', ' ')
 reviews['text'] = reviews['text'].str.lower()
 # remove all stopwords
 reviews['text'] = reviews['text'].apply(lambda x: ' '.join([word for word in x.split() if word not in (stop_words)]))
+
+# run naive bayes on the data
+# split the data into train and test
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(reviews['text'], reviews['label'], test_size=0.2, random_state=42)
+
+# vectorize the text
+vectorizer = TfidfVectorizer()
+X_train = vectorizer.fit_transform(X_train)
+X_test = vectorizer.transform(X_test)
+
+# train the model
+from sklearn.naive_bayes import MultinomialNB
+
+model = MultinomialNB()
+model.fit(X_train, y_train)
+
+# evaluate the model
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+y_pred = model.predict(X_test)
+print('========= Naive Bayes =========')
+print('Accuracy: ')
+print(accuracy_score(y_test, y_pred))
+print('Confusion Matrix: ')
+print(confusion_matrix(y_test, y_pred))
+print('Classification Report: ')
+print(classification_report(y_test, y_pred))
+print('======================================================')
+print()
+
+
+# run svm on the data
+# train the model
+from sklearn.svm import SVC
+
+model = SVC()
+model.fit(X_train, y_train)
+
+# evaluate the model
+y_pred = model.predict(X_test)
+print('========= SVM =========')
+print('Accuracy: ')
+print(accuracy_score(y_test, y_pred))
+print('Confusion Matrix: ')
+print(confusion_matrix(y_test, y_pred))
+print('Classification Report: ')
+print(classification_report(y_test, y_pred))
+print('======================================================')
+print()
+
+# run logistic regression on the data
+# train the model
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# evaluate the model
+y_pred = model.predict(X_test)
+print('========= Logistic Regression =========')
+print('Accuracy: ')
+print(accuracy_score(y_test, y_pred))
+print('Confusion Matrix: ')
+print(confusion_matrix(y_test, y_pred))
+print('Classification Report: ')
+print(classification_report(y_test, y_pred))
+print('======================================================')
+print()
+
+# run random forest on the data
+# train the model
+from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+# evaluate the model
+y_pred = model.predict(X_test)
+print('========= Random Forest =========')
+print('Accuracy: ')
+print(accuracy_score(y_test, y_pred))
+print('Confusion Matrix: ')
+print(confusion_matrix(y_test, y_pred))
+print('Classification Report: ')
+print(classification_report(y_test, y_pred))
+print('======================================================')
+print()
