@@ -9,7 +9,6 @@ import os
 def read_files(text_files_dir):
     path = text_files_dir
     files = glob.glob(os.path.join(path, '*.txt'))
-    print("list of files: ", len(files))
     real_reviews = []
     for file in files:
         with open(file, 'r') as f:
@@ -19,25 +18,25 @@ def read_files(text_files_dir):
 
 
 reviews_real = read_files('data/real_reviews')
-print(len(reviews_real))
-print(reviews_real[1])
+# convert it to a pandas dataframe
+df_real = pd.DataFrame(reviews_real, columns=['text'])
+df_real['label'] = 1
+print(df_real.head())
+print(len(df_real))
 
-reviews_generated = pd.read_csv('data/generated_reviews_500.csv',
-                                names=['prompt_index',
-                                       'prompt_texts',
-                                       'completion_text',
-                                       'completion',
-                                       'full_text',
-                                       'reached_end'],
-                                skiprows=1)
 
+reviews_generated = pd.read_csv('data/generated_reviews_500.csv')
+# drop all columns except the full_text column
+reviews_generated = reviews_generated.drop(['prompt_index',
+                                            'prompt_text',
+                                            'completion_index',
+                                            'completion',
+                                            'reached_end'],
+                                           axis=1)
+# rename the full_text column to text
+reviews_generated = reviews_generated.rename(columns={'full_text': 'text'})
+
+reviews_generated['label'] = 0
+print(reviews_generated.head())
 # length of the generated reviews
 print(len(reviews_generated))
-# drop all columns except the full_text column
-reviews_generated = reviews_generated.drop(['prompt_index', 'prompt_texts', 'completion_text', 'completion', 'reached_end'], axis=1)
-# print the first 5 rows
-print(reviews_generated.head())
-# print column names of the dataframe
-print(reviews_generated.columns)
-
-
