@@ -1,0 +1,2 @@
+ # B1. Data set selection and description
+For this project we are aiming to differentiate between a real movie review and a bot/AI generated review. To do this we have collected a huge number of real movie reviews which we have got from this website of cornell university called [The Movie Review Data](http://www.cs.cornell.edu/people/pabo/movie-review-data/).
