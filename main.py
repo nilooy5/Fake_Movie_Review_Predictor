@@ -17,12 +17,12 @@ def read_files(text_files_dir):
     return real_reviews
 
 
-reviews_real = read_files('data/real_reviews')
+reviews_list = read_files('data/real_reviews')
 # convert it to a pandas dataframe
-df_real = pd.DataFrame(reviews_real, columns=['text'])
-df_real['label'] = 1
-print(df_real.head())
-print(len(df_real))
+reviews_real = pd.DataFrame(reviews_list, columns=['text'])
+reviews_real['label'] = 1
+print(reviews_real.head())
+print(len(reviews_real))
 
 
 reviews_generated = pd.read_csv('data/generated_reviews_500.csv')
