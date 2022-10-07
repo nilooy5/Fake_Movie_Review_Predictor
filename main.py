@@ -2,6 +2,20 @@ import glob
 
 import pandas as pd
 import os
+import nltk
+from matplotlib import pyplot as plt
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from wordcloud import WordCloud
+
+nltk.download('omw-1.4')
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+stop_words = set(stopwords.words('english'))
 
 
 # read all files in the folder data/real_reviews and store them in a list
@@ -49,3 +63,13 @@ print(reviews.head())
 # random shuffle the dataframe
 reviews = reviews.sample(frac=1).reset_index(drop=True)
 print(reviews.head())
+
+# perform cleanup in the text column
+# remove all new line characters
+reviews['text'] = reviews['text'].str.replace('\n', ' ')
+# remove all non-alphabetic characters
+reviews['text'] = reviews['text'].str.replace('[^a-zA-Z]', ' ')
+# convert all text to lowercase
+reviews['text'] = reviews['text'].str.lower()
+# remove all stopwords
+reviews['text'] = reviews['text'].apply(lambda x: ' '.join([word for word in x.split() if word not in (stop_words)]))
