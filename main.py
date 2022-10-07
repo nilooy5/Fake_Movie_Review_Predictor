@@ -20,9 +20,6 @@ def read_files(text_files_dir):
 reviews_list = read_files('data/real_reviews')
 # convert it to a pandas dataframe
 reviews_real = pd.DataFrame(reviews_list, columns=['text'])
-reviews_real['label'] = 1
-print(reviews_real.head())
-print(len(reviews_real))
 
 
 reviews_generated = pd.read_csv('data/generated_reviews_500.csv')
@@ -36,7 +33,19 @@ reviews_generated = reviews_generated.drop(['prompt_index',
 # rename the full_text column to text
 reviews_generated = reviews_generated.rename(columns={'full_text': 'text'})
 
+
+reviews_real['label'] = 1
+print(reviews_real.head())
+print(len(reviews_real))
+
 reviews_generated['label'] = 0
 print(reviews_generated.head())
-# length of the generated reviews
 print(len(reviews_generated))
+
+
+# merge the two dataframes
+reviews = pd.concat([reviews_real, reviews_generated], ignore_index=True)
+print(reviews.head())
+# random shuffle the dataframe
+reviews = reviews.sample(frac=1).reset_index(drop=True)
+print(reviews.head())
