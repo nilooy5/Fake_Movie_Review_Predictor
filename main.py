@@ -10,6 +10,12 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from wordcloud import WordCloud
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 
 nltk.download('omw-1.4')
 nltk.download('stopwords')
@@ -76,7 +82,6 @@ reviews['text'] = reviews['text'].apply(lambda x: ' '.join([word for word in x.s
 
 # run naive bayes on the data
 # split the data into train and test
-from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(reviews['text'], reviews['label'], test_size=0.2, random_state=42)
 
@@ -86,13 +91,11 @@ X_train = vectorizer.fit_transform(X_train)
 X_test = vectorizer.transform(X_test)
 
 # train the model
-from sklearn.naive_bayes import MultinomialNB
 
 model = MultinomialNB()
 model.fit(X_train, y_train)
 
 # evaluate the model
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 y_pred = model.predict(X_test)
 print('========= Naive Bayes =========')
@@ -108,7 +111,6 @@ print()
 
 # run svm on the data
 # train the model
-from sklearn.svm import SVC
 
 model = SVC()
 model.fit(X_train, y_train)
@@ -127,7 +129,6 @@ print()
 
 # run logistic regression on the data
 # train the model
-from sklearn.linear_model import LogisticRegression
 
 model = LogisticRegression()
 model.fit(X_train, y_train)
@@ -146,7 +147,6 @@ print()
 
 # run random forest on the data
 # train the model
-from sklearn.ensemble import RandomForestClassifier
 
 model = RandomForestClassifier()
 model.fit(X_train, y_train)
