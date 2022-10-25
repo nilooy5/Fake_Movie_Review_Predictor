@@ -3,13 +3,8 @@ import glob
 import pandas as pd
 import os
 import nltk
-from matplotlib import pyplot as plt
-from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from wordcloud import WordCloud
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
