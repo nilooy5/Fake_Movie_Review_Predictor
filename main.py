@@ -80,7 +80,7 @@ reviews['text'] = reviews['text'].apply(lambda x: ' '.join([word for word in x.s
 # run naive bayes on the data
 # split the data into train and test
 
-X_train, X_test, y_train, y_test = train_test_split(reviews['text'], reviews['label'], test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(reviews['text'], reviews['label'], test_size=0.2, random_state=10)
 
 # vectorize the text
 vectorizer = TfidfVectorizer()
@@ -167,3 +167,15 @@ with open('modelRF.pkl', 'wb') as f:
 # open the model
 with open('modelRF.pkl', 'rb') as f:
     modelRFLoaded = pickle.load(f)
+
+print("final model loaded")
+y_pred = modelRFLoaded.predict(X_test)
+print('========= Random Forest =========')
+print('Accuracy: ')
+print(accuracy_score(y_test, y_pred))
+print('Confusion Matrix: ')
+print(confusion_matrix(y_test, y_pred))
+print('Classification Report: ')
+print(classification_report(y_test, y_pred))
+print('======================================================')
+print()
