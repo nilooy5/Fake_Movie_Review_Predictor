@@ -11,6 +11,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
+import pickle
+
 
 nltk.download('omw-1.4')
 nltk.download('stopwords')
@@ -87,12 +89,12 @@ X_test = vectorizer.transform(X_test)
 
 # train the model
 
-model = MultinomialNB()
-model.fit(X_train, y_train)
+modelNB = MultinomialNB()
+modelNB.fit(X_train, y_train)
 
 # evaluate the model
 
-y_pred = model.predict(X_test)
+y_pred = modelNB.predict(X_test)
 print('========= Naive Bayes =========')
 print('Accuracy: ')
 print(accuracy_score(y_test, y_pred))
@@ -107,11 +109,11 @@ print()
 # run svm on the data
 # train the model
 
-model = SVC()
-model.fit(X_train, y_train)
+modelSVC = SVC()
+modelSVC.fit(X_train, y_train)
 
 # evaluate the model
-y_pred = model.predict(X_test)
+y_pred = modelSVC.predict(X_test)
 print('========= SVM =========')
 print('Accuracy: ')
 print(accuracy_score(y_test, y_pred))
@@ -125,11 +127,11 @@ print()
 # run logistic regression on the data
 # train the model
 
-model = LogisticRegression()
-model.fit(X_train, y_train)
+modelLR = LogisticRegression()
+modelLR.fit(X_train, y_train)
 
 # evaluate the model
-y_pred = model.predict(X_test)
+y_pred = modelLR.predict(X_test)
 print('========= Logistic Regression =========')
 print('Accuracy: ')
 print(accuracy_score(y_test, y_pred))
@@ -143,11 +145,11 @@ print()
 # run random forest on the data
 # train the model
 
-model = RandomForestClassifier()
-model.fit(X_train, y_train)
+modelRF = RandomForestClassifier()
+modelRF.fit(X_train, y_train)
 
 # evaluate the model
-y_pred = model.predict(X_test)
+y_pred = modelRF.predict(X_test)
 print('========= Random Forest =========')
 print('Accuracy: ')
 print(accuracy_score(y_test, y_pred))
@@ -157,3 +159,11 @@ print('Classification Report: ')
 print(classification_report(y_test, y_pred))
 print('======================================================')
 print()
+
+# save the model for later use
+with open('model.pkl', 'wb') as f:
+    pickle.dump(modelRF, f)
+
+# open the model
+with open('model.pkl', 'rb') as f:
+    model = pickle.load(f)
