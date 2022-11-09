@@ -161,9 +161,9 @@ print('======================================================')
 print()
 
 # save the model for later use
-with open('model.pkl', 'wb') as f:
+with open('modelRF.pkl', 'wb') as f:
     pickle.dump(modelRF, f)
 
 # open the model
-with open('model.pkl', 'rb') as f:
-    model = pickle.load(f)
+with open('modelRF.pkl', 'rb') as f:
+    modelRFLoaded = pickle.load(f)
