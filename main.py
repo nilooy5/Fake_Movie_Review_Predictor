@@ -179,3 +179,29 @@ print('Classification Report: ')
 print(classification_report(y_test, y_pred))
 print('======================================================')
 print()
+
+
+# running on unseen data
+reviews_list = read_files('unseen_data')
+# convert it to a pandas dataframe
+reviews = pd.DataFrame(reviews_list, columns=['text'])
+
+reviews['label'] = 1
+reviews['text'] = reviews['text'].str.replace('\n', ' ')
+# remove all non-alphabetic characters
+reviews['text'] = reviews['text'].str.replace('[^a-zA-Z]', ' ')
+# convert all text to lowercase
+reviews['text'] = reviews['text'].str.lower()
+# remove all stopwords
+reviews['text'] = reviews['text'].apply(lambda x: ' '.join([word for word in x.split() if word not in (stop_words)]))
+
+X_test = vectorizer.transform(reviews['text'])
+y_pred = modelRFLoaded.predict(X_test)
+print('========= Random Forest On Unseen Data =========')
+print('Accuracy: ')
+print(accuracy_score(reviews['label'], y_pred))
+print('Confusion Matrix: ')
+print(confusion_matrix(reviews['label'], y_pred))
+print('Classification Report: ')
+print(classification_report(reviews['label'], y_pred))
+print('======================================================')
